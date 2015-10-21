@@ -1,6 +1,9 @@
 package cfmt
 
-import "time"
+import (
+	"time"
+	"bytes"
+)
 
 // Returns format for nil value
 func FNil() Format {
@@ -10,6 +13,23 @@ func FNil() Format {
 // Returns format for strings
 func FString(s string) Format {
 	return styles.Get(S_STRING, s)
+}
+
+// Returns format for string slice
+func FStringl(s []string) Format {
+	if s == nil {
+		return FNil()
+	} else if len(s) == 0 {
+		return styles.Get(S_STRING, "")
+	}
+	buf := bytes.NewBufferString("")
+	for i, v := range s {
+		if i > 0 {
+			buf.WriteString(", ")
+		}
+		buf.WriteString(v)
+	}
+	return styles.Get(S_STRING, buf.String())
 }
 
 // Returns format for integers

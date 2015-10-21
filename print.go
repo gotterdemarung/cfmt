@@ -1,11 +1,17 @@
 package cfmt
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"os"
+)
 
 // Replaces entities with known ones
 func replace(x []interface{}) []interface{} {
 	if x == nil {
 		return nil
+	} else if len(x) == 0 {
+		return x
 	}
 
 	y := make([]interface{}, len(x))
@@ -24,10 +30,29 @@ func replace(x []interface{}) []interface{} {
 	return y
 }
 
-func Print(x ...interface{}) {
-	fmt.Print(replace(x)...)
+func Fprint(w io.Writer, x ...interface{}) {
+	fmt.Fprint(w, replace(x)...)
+}
+
+func Fprintf(w io.Writer, pattern string, x ...interface{}) {
+	fmt.Fprintf(w, pattern, replace(x)...)
 }
 
 func Printf(pattern string, x ...interface{}) {
-	fmt.Printf(pattern, replace(x)...)
+	Fprintf(os.Stdout, pattern, replace(x)...)
 }
+
+func Println(x ...interface{}) {
+	if len(x) == 0 {
+		fmt.Fprintf(os.Stdout, "\n")
+	} else {
+		Print(x...)
+		Print("\n")
+	}
+}
+
+func Print(x ...interface{}) {
+	Fprint(os.Stdout, x...)
+}
+
+

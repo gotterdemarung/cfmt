@@ -14,6 +14,7 @@ type Format struct {
 	Value                    interface{}
 	Fg, Bg                   int
 	Bold, Intense, Underline bool
+	Width 					 int
 }
 
 // String representation of inner value
@@ -23,5 +24,5 @@ func (f Format) String() string {
 
 // Returns true if format contains no formatting
 func (f Format) NoFormat() bool {
-	return f.Fg == 0 && f.Bg == 0 && !f.Bold
+	return f.Fg == 0 && f.Bg == 0 && !f.Bold && !f.Underline
 }

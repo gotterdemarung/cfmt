@@ -1,7 +1,10 @@
+// +build darwin linux
+
 package cfmt
 
 import (
 	"bytes"
+	"strings"
 	"strconv"
 )
 
@@ -21,6 +24,12 @@ const (
 // Performs ANSI formatting of provided data
 func AnsiFormat(f Format) string {
 	str := f.String()
+
+	if f.Width > 0 && len(str) < f.Width {
+		// Padding
+		str = str + strings.Repeat(" ", f.Width - len(str))
+	}
+
 	if f.NoFormat() {
 		return str
 	}
@@ -44,9 +53,11 @@ func AnsiFormat(f Format) string {
 			}
 			buf.WriteString(strconv.Itoa(clr))
 		}
-		buf.WriteString(";")
 	}
 	if f.Bg > 0 {
+		if f.Fg > 0 {
+			buf.WriteString(";")
+		}
 		clr := f.Bg + 39
 		buf.WriteString(strconv.Itoa(clr))
 		buf.WriteString(";")
