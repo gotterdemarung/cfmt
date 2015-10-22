@@ -14,16 +14,18 @@ func replace(x []interface{}) []interface{} {
 		return x
 	}
 
-	y := make([]interface{}, len(x))
+	y := []interface{}{}
 
-	for i, j := range x {
+	for _, j := range x {
 		// Real format
 		if f, ok := j.(Format); ok {
-			y[i] = formatter(f)
+			y = append(y, formatter(f))
+		} else if f, ok := j.(Formatted); ok {
+			y = append(y, replace(f.Cfmt())...)
 		} else if f, ok := j.(error); ok {
-			y[i] = formatter(styles.Get(S_ERROR, f))
+			y = append(y, formatter(styles.Get(S_ERROR, f)))
 		} else {
-			y[i] = j
+			y = append(y, j)
 		}
 	}
 
@@ -54,5 +56,3 @@ func Println(x ...interface{}) {
 func Print(x ...interface{}) {
 	Fprint(os.Stdout, x...)
 }
-
-

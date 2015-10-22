@@ -4,12 +4,12 @@ package cfmt
 
 import (
 	"bytes"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const (
-	// Start ANSI color sequenct
+	// Start ANSI color sequence
 	Start = "\033["
 	// Bold
 	Bold = "1;"
@@ -27,10 +27,10 @@ func AnsiFormat(f Format) string {
 
 	if f.Width > 0 && len(str) < f.Width {
 		// Padding
-		str = str + strings.Repeat(" ", f.Width - len(str))
+		str = str + strings.Repeat(" ", f.Width-len(str))
 	}
 
-	if f.NoFormat() {
+	if !f.HasColors() {
 		return str
 	}
 

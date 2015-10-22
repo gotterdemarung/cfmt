@@ -1,13 +1,22 @@
 package cfmt
 
 import (
-	"time"
 	"bytes"
+	"time"
 )
 
 // Returns format for nil value
 func FNil() Format {
 	return styles.Get(S_NIL, "<nil>")
+}
+
+// Returns yes/no formatting for bools
+func FYesNo(value bool) Format {
+	if value {
+		return styles.Get(S_BOOL, "yes")
+	} else {
+		return styles.Get(S_BOOL, "no")
+	}
 }
 
 // Returns format for strings

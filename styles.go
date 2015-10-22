@@ -11,6 +11,7 @@ const (
 	S_KEY
 	S_TYPE
 	S_NIL
+	S_BOOL
 )
 
 // Describes stylesheet holder format
@@ -35,6 +36,12 @@ func init() {
 	styles = StyleSheet{}
 
 	styles[S_NIL] = func(x interface{}) Format {
+		return Format{
+			Value: x,
+			Fg:    161,
+		}
+	}
+	styles[S_BOOL] = func(x interface{}) Format {
 		return Format{
 			Value: x,
 			Fg:    161,
