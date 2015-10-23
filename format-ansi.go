@@ -58,9 +58,14 @@ func AnsiFormat(f Format) string {
 		if f.Fg > 0 {
 			buf.WriteString(";")
 		}
-		clr := f.Bg + 39
-		buf.WriteString(strconv.Itoa(clr))
-		buf.WriteString(";")
+		if f.Bg > 15 {
+			buf.WriteString("48;5;")
+			buf.WriteString(strconv.Itoa(f.Bg))
+		} else {
+			clr := f.Bg + 39
+			buf.WriteString(strconv.Itoa(clr))
+			buf.WriteString(";")
+		}
 	}
 	buf.WriteString("m")
 
