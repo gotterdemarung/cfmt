@@ -5,9 +5,42 @@ import (
 	"time"
 )
 
+// Detects type of provided value and returns most suitable format
+// for it
+func FAuto(in interface{}) Format {
+	if in == nil {
+		return FNil()
+	}
+	if x, ok := in.(string); ok {
+		return FString(x)
+	}
+	if x, ok := in.(int); ok {
+		return FInt(x)
+	}
+	if x, ok := in.(bool); ok {
+		return FBool(x)
+	}
+	if x, ok := in.(Format); ok {
+		return x
+	}
+
+	return Format{
+		Value: in,
+	}
+}
+
 // Returns format for nil value
 func FNil() Format {
 	return styles.Get(S_NIL, "<nil>")
+}
+
+// Returns true/false formatting for bools
+func FBool(value bool) Format {
+	if value {
+		return styles.Get(S_BOOL, "true")
+	} else {
+		return styles.Get(S_BOOL, "false")
+	}
 }
 
 // Returns yes/no formatting for bools
