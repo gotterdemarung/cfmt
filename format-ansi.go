@@ -1,4 +1,4 @@
-// +build darwin linux
+// +build freebsd netbsd openbsd linux
 
 package cfmt
 
@@ -72,7 +72,6 @@ func AnsiFormat(f Format) string {
 	return buf.String()
 }
 
-const ioctlReadTermios = 0x5401 // syscall.TCGETS
 func isTerminal(fd int) bool {
 	var termios syscall.Termios
 	_, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), ioctlReadTermios, uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
