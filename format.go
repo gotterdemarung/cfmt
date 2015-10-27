@@ -6,7 +6,7 @@ import (
 
 // Formatter with default value
 var formatter func(f Format) string = func(f Format) string {
-	return f.String()
+	return TextFormat(f)
 }
 
 // Interface for self-formatable entries

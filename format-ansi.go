@@ -4,8 +4,10 @@ package cfmt
 
 import (
 	"bytes"
+	"os"
 	"strconv"
-	"strings"
+	"syscall"
+	"unsafe"
 )
 
 const (
@@ -23,12 +25,7 @@ const (
 
 // Performs ANSI formatting of provided data
 func AnsiFormat(f Format) string {
-	str := f.String()
-
-	if f.Width > 0 && len(str) < f.Width {
-		// Padding
-		str = str + strings.Repeat(" ", f.Width-len(str))
-	}
+	str := TextFormat(f)
 
 	if !f.HasColors() {
 		return str
@@ -75,6 +72,15 @@ func AnsiFormat(f Format) string {
 	return buf.String()
 }
 
+const ioctlReadTermios = 0x5401 // syscall.TCGETS
+func isTerminal(fd int) bool {
+	var termios syscall.Termios
+	_, _, err := syscall.Syscall6(syscall.SYS_IOCTL, uintptr(fd), ioctlReadTermios, uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
+	return err == 0
+}
+
 func init() {
-	formatter = AnsiFormat
+	if isTerminal(int(os.Stdout.Fd())) {
+		formatter = AnsiFormat
+	}
 }
