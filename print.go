@@ -20,6 +20,8 @@ func replace(x []interface{}) []interface{} {
 		// Real format
 		if f, ok := j.(Format); ok {
 			y = append(y, formatter(f))
+		} else if f, ok := j.(FormatList); ok {
+			y = append(y, replace(f)...)
 		} else if f, ok := j.(Formatted); ok {
 			y = append(y, replace(f.Cfmt())...)
 		} else if f, ok := j.(error); ok {

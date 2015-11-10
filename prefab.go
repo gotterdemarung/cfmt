@@ -2,6 +2,7 @@ package cfmt
 
 import (
 	"bytes"
+	"strings"
 	"time"
 )
 
@@ -26,6 +27,17 @@ func FAuto(in interface{}) Format {
 
 	return Format{
 		Value: in,
+	}
+}
+
+func FHeader(h string) FormatList {
+	return []interface{}{
+		" ",
+		Format{Value: h, Fg: 70},
+		"\n",
+		" ",
+		Format{Value: strings.Repeat("─", len(h)), Fg: 64},
+		"\n",
 	}
 }
 

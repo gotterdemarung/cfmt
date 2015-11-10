@@ -4,6 +4,12 @@ import (
 	"fmt"
 )
 
+const (
+	LEFT byte = iota
+	RIGHT
+	CENTER
+)
+
 // Formatter with default value
 var formatter func(f Format) string = func(f Format) string {
 	return TextFormat(f)
@@ -20,7 +26,11 @@ type Format struct {
 	Fg, Bg                   int
 	Bold, Intense, Underline bool
 	Width                    int
+	Align                    byte
 }
+
+// List of formats
+type FormatList []interface{}
 
 // String representation of inner value
 func (f Format) String() string {

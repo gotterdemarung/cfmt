@@ -9,7 +9,16 @@ func TextFormat(f Format) string {
 
 	if f.Width > 0 && len(str) < f.Width {
 		// Padding
-		str = str + strings.Repeat(" ", f.Width-len(str))
+		switch f.Align {
+		case RIGHT:
+			str = strings.Repeat(" ", f.Width-len(str)) + str
+		case CENTER:
+			left := (f.Width - len(str)) / 2
+			right := f.Width - len(str) - left
+			str = strings.Repeat(" ", left) + str + strings.Repeat(" ", right)
+		default:
+			str = str + strings.Repeat(" ", f.Width-len(str))
+		}
 	}
 
 	return str
