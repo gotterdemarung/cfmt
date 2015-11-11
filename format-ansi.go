@@ -1,4 +1,4 @@
-// +build freebsd netbsd openbsd linux
+// +build freebsd netbsd openbsd linux darwin
 
 package cfmt
 
