@@ -50,8 +50,8 @@ func Println(x ...interface{}) {
 	if len(x) == 0 {
 		fmt.Fprintf(os.Stdout, "\n")
 	} else {
-		Print(x...)
-		Print("\n")
+		y := append(x, "\n")
+		Print(y...)
 	}
 }
 
