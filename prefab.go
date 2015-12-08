@@ -23,6 +23,9 @@ func FAuto(in interface{}) Format {
 	if x, ok := in.(bool); ok {
 		return FBool(x)
 	}
+	if x, ok := in.(error); ok {
+		return FError(x)
+	}
 	if x, ok := in.(Format); ok {
 		return x
 	}
@@ -46,6 +49,15 @@ func FHeader(h string) FormatList {
 // Returns format for nil value
 func FNil() Format {
 	return styles.Get(S_NIL, "<nil>")
+}
+
+// Returns format for errors
+func FError(value interface{}) Format {
+	if x, ok := value.(error); ok {
+		return styles.Get(S_ERROR, x.Error())
+	} else {
+		return styles.Get(S_ERROR, value)
+	}
 }
 
 // Returns true/false formatting for bools
