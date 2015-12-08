@@ -50,13 +50,13 @@ func (f Format) HasModification() bool {
 // Returns copy of format with provided width
 func (f Format) WithWidth(width int) Format {
 	return Format{
-		Value: f.Value,
-		Fg: f.Fg,
-		Bg: f.Bg,
-		Bold: f.Bold,
-		Intense: f.Intense,
+		Value:     f.Value,
+		Fg:        f.Fg,
+		Bg:        f.Bg,
+		Bold:      f.Bold,
+		Intense:   f.Intense,
 		Underline: f.Underline,
-		Width: width,
-		Align: f.Align,
+		Width:     width,
+		Align:     f.Align,
 	}
 }

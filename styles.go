@@ -89,7 +89,7 @@ func init() {
 	styles[S_TIME_LOG] = func(x interface{}) Format {
 		return Format{
 			Value: x,
-			Fg: 239,
+			Fg:    239,
 		}
 	}
 }

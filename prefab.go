@@ -1,10 +1,10 @@
 package cfmt
 
 import (
-	"fmt"
 	"bytes"
-	"strings"
+	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -107,7 +107,7 @@ func FInt(x int) Format {
 
 // Returns format for floats
 func FFloat(value float64, precision int) Format {
-	return styles.Get(S_INT, fmt.Sprintf("%." + strconv.Itoa(precision) + "f", value))
+	return styles.Get(S_INT, fmt.Sprintf("%."+strconv.Itoa(precision)+"f", value))
 }
 
 // Returns format for types (structs, etc.)
@@ -128,12 +128,12 @@ func FDuration(x time.Duration) Format {
 // Returns format for durations with arbitrary precision
 func FDuration2(duration time.Duration, dimension time.Duration) Format {
 	switch dimension {
-		case time.Second:
-			return styles.Get(S_DURATION, fmt.Sprintf("%.3f s", duration.Seconds()))
-		case time.Millisecond:
-			return styles.Get(S_DURATION, fmt.Sprintf("%d ms", duration.Nanoseconds() / 1000000))
-		default:
-			return FDuration(duration)
+	case time.Second:
+		return styles.Get(S_DURATION, fmt.Sprintf("%.3f s", duration.Seconds()))
+	case time.Millisecond:
+		return styles.Get(S_DURATION, fmt.Sprintf("%d ms", duration.Nanoseconds()/1000000))
+	default:
+		return FDuration(duration)
 	}
 }
 
@@ -145,7 +145,7 @@ func FTimeShortMs(time time.Time) Format {
 			time.Hour(),
 			time.Minute(),
 			time.Second(),
-			time.Nanosecond() / 1000000,
+			time.Nanosecond()/1000000,
 		),
 	)
 }
