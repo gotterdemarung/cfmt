@@ -1,8 +1,10 @@
 package cfmt
 
 import (
+	"fmt"
 	"bytes"
 	"strings"
+	"strconv"
 	"time"
 )
 
@@ -91,6 +93,11 @@ func FInt(x int) Format {
 	return styles.Get(S_INT, x)
 }
 
+// Returns format for floats
+func FFloat(value float64, precision int) Format {
+	return styles.Get(S_INT, fmt.Sprintf("%." + strconv.Itoa(precision) + "f", value))
+}
+
 // Returns format for types (structs, etc.)
 func FType(x interface{}) Format {
 	return styles.Get(S_TYPE, x)
@@ -104,4 +111,29 @@ func FKey(x string) Format {
 // Returns format for durations
 func FDuration(x time.Duration) Format {
 	return styles.Get(S_DURATION, x)
+}
+
+// Returns format for durations with arbitrary precision
+func FDuration2(duration time.Duration, dimension time.Duration) Format {
+	switch dimension {
+		case time.Second:
+			return styles.Get(S_DURATION, fmt.Sprintf("%.3f s", duration.Seconds()))
+		case time.Millisecond:
+			return styles.Get(S_DURATION, fmt.Sprintf("%d ms", duration.Nanoseconds() / 1000000))
+		default:
+			return FDuration(duration)
+	}
+}
+
+func FTimeShortMs(time time.Time) Format {
+	return styles.Get(
+		S_TIME_LOG,
+		fmt.Sprintf(
+			"%02d:%02d:%02d.%03d",
+			time.Hour(),
+			time.Minute(),
+			time.Second(),
+			time.Nanosecond() / 1000000,
+		),
+	)
 }

@@ -12,6 +12,7 @@ const (
 	S_TYPE
 	S_NIL
 	S_BOOL
+	S_TIME_LOG
 )
 
 // Describes stylesheet holder format
@@ -83,6 +84,12 @@ func init() {
 			Value: x,
 			Bold:  true,
 			Fg:    Black,
+		}
+	}
+	styles[S_TIME_LOG] = func(x interface{}) Format {
+		return Format{
+			Value: x,
+			Fg: 239,
 		}
 	}
 }
