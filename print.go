@@ -56,6 +56,5 @@ func Println(x ...interface{}) {
 }
 
 func Print(x ...interface{}) {
-	os.Stdout.Fd()
 	Fprint(os.Stdout, x...)
 }
